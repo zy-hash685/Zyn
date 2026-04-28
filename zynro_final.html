@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>zynro. Webdesign – Professionelle Websites für lokale Unternehmen</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent: #5B4EE8;
+      --accent-light: #EEEDFE;
+      --accent-dark: #3C3489;
+      --text: #111;
+      --text-muted: #666;
+      --border: rgba(0,0,0,0.1);
+      --bg: #fff;
+      --bg-secondary: #f9f9f9;
+      --radius: 12px;
+      --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      font-family: var(--font);
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 2rem;
+      border-bottom: 1px solid var(--border);
+      background: #fff;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .logo { line-height: 1; display: inline-flex; flex-direction: column; align-items: flex-start; }
+    .logo .logo-top { font-size: 24px; font-weight: 700; letter-spacing: -1px; color: var(--text); display: flex; align-items: baseline; }
+    .logo .logo-dot { color: var(--accent); }
+    .logo .logo-sub { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--text); margin-top: 2px; align-self: flex-end; }
+    nav ul { display: flex; gap: 1.5rem; list-style: none; }
+    nav ul a { font-size: 14px; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    nav ul a:hover { color: var(--text); }
+    .nav-cta {
+      background: var(--accent); color: #fff; border: none;
+      padding: 9px 20px; border-radius: 7px; font-size: 14px;
+      font-weight: 500; cursor: pointer; transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.9; }
+
+    /* HERO */
+    .hero {
+      padding: 6rem 2rem 5rem;
+      text-align: center;
+      background: #fff;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .badge {
+      display: inline-block;
+      background: var(--accent-light); color: var(--accent-dark);
+      font-size: 12px; padding: 5px 16px; border-radius: 20px;
+      margin-bottom: 1.5rem; font-weight: 500; letter-spacing: 0.3px;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 700; line-height: 1.1;
+      letter-spacing: -2px; max-width: 820px; margin: 0 auto 1.25rem;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero p {
+      font-size: 17px; color: var(--text-muted);
+      max-width: 520px; margin: 0 auto 2.5rem; line-height: 1.75;
+    }
+    .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--accent); color: #fff; border: none;
+      padding: 14px 32px; border-radius: 8px;
+      font-size: 15px; font-weight: 600; cursor: pointer;
+      display: inline-block; text-decoration: none;
+      transition: transform 0.15s, opacity 0.15s;
+    }
+    .btn-primary:hover { opacity: 0.92; transform: translateY(-1px); }
+    .btn-secondary {
+      background: transparent; color: var(--text);
+      border: 1px solid var(--border);
+      padding: 14px 28px; border-radius: 8px;
+      font-size: 15px; font-weight: 500; cursor: pointer;
+      display: inline-block; text-decoration: none;
+      transition: border-color 0.2s;
+    }
+    .btn-secondary:hover { border-color: #aaa; }
+
+    /* STATS */
+    .stats {
+      display: flex; justify-content: center;
+      gap: 4rem; flex-wrap: wrap;
+      padding: 2.5rem 2rem;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-secondary);
+    }
+    .stat { text-align: center; }
+    .stat-num { font-size: 30px; font-weight: 700; color: var(--accent); letter-spacing: -1px; }
+    .stat-label { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+
+    /* SECTIONS */
+    section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
+    .full-bg { max-width: 100%; padding: 0; }
+    .full-bg > .inner { max-width: 1100px; margin: 0 auto; padding: 5rem 2rem; }
+
+    .section-label {
+      font-size: 11px; color: var(--accent); font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase;
+      margin-bottom: 0.75rem; display: block;
+    }
+    .section-title {
+      font-size: clamp(1.7rem, 3vw, 2.5rem);
+      font-weight: 700; letter-spacing: -0.8px;
+      max-width: 600px; margin-bottom: 1rem; line-height: 1.15;
+    }
+    .section-sub {
+      font-size: 16px; color: var(--text-muted);
+      max-width: 500px; line-height: 1.75; margin-bottom: 3rem;
+    }
+
+    /* LEISTUNGEN */
+    .leistungen-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      transition: box-shadow 0.2s;
+    }
+    .card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.07); }
+    .card.featured { border: 2px solid var(--accent); }
+    .feat-badge {
+      display: inline-block;
+      background: var(--accent-light); color: var(--accent-dark);
+      font-size: 11px; padding: 3px 10px; border-radius: 20px;
+      margin-bottom: 0.75rem; font-weight: 600;
+    }
+    .card-icon {
+      width: 42px; height: 42px; border-radius: 9px;
+      background: var(--accent-light);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1rem;
+    }
+    .card-icon svg { width: 20px; height: 20px; }
+    .card h3 { font-size: 16px; font-weight: 600; margin-bottom: 0.5rem; }
+    .card p { font-size: 14px; color: var(--text-muted); line-height: 1.65; }
+
+    /* VORTEILE */
+    .vorteile-bg { background: var(--bg-secondary); }
+    .vorteile-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2.25rem;
+    }
+    .vorteil { display: flex; flex-direction: column; gap: 0.5rem; }
+    .check {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-bottom: 0.6rem;
+    }
+    .check svg { width: 14px; height: 14px; stroke: #fff; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    .vorteil h3 { font-size: 15px; font-weight: 600; }
+    .vorteil p { font-size: 14px; color: var(--text-muted); line-height: 1.65; }
+
+    /* CTA BLOCK */
+    .cta-wrap { padding: 2rem; }
+    .cta-block {
+      text-align: center;
+      background: var(--accent);
+      border-radius: 16px;
+      padding: 5rem 2rem;
+      max-width: 1060px;
+      margin: 0 auto;
+    }
+    .cta-block h2 {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 700; color: #fff;
+      letter-spacing: -0.8px; margin-bottom: 1rem;
+    }
+    .cta-block p { color: #cdc8f7; font-size: 16px; margin-bottom: 2rem; line-height: 1.7; }
+    .btn-white {
+      background: #fff; color: var(--accent);
+      border: none; padding: 14px 34px;
+      border-radius: 8px; font-size: 15px;
+      font-weight: 600; cursor: pointer;
+      display: inline-block; text-decoration: none;
+      transition: transform 0.15s, opacity 0.15s;
+    }
+    .btn-white:hover { transform: translateY(-1px); opacity: 0.95; }
+
+    /* KONTAKT */
+    .kontakt-inner {
+      display: flex; gap: 5rem; align-items: flex-start; flex-wrap: wrap;
+    }
+    .kontakt-info { flex: 1; min-width: 260px; }
+    .kontakt-info h2 {
+      font-size: 2.2rem; font-weight: 700;
+      margin-bottom: 1rem; letter-spacing: -0.8px; line-height: 1.15;
+    }
+    .kontakt-info p { color: var(--text-muted); line-height: 1.75; margin-bottom: 1.75rem; font-size: 15px; }
+    .email-link {
+      display: inline-flex; align-items: center; gap: 10px;
+      color: var(--accent); font-size: 14px; text-decoration: none;
+      border: 1px solid var(--accent); border-radius: 8px; padding: 10px 18px;
+      font-weight: 500; transition: background 0.2s;
+    }
+    .email-link:hover { background: var(--accent-light); }
+    .kontakt-form { flex: 1.2; min-width: 280px; display: flex; flex-direction: column; gap: 14px; }
+    .kontakt-form input,
+    .kontakt-form textarea {
+      padding: 12px 14px; border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-secondary);
+      color: var(--text);
+      font-family: var(--font); font-size: 14px;
+      width: 100%; outline: none; transition: border-color 0.2s;
+    }
+    .kontakt-form input:focus,
+    .kontakt-form textarea:focus { border-color: var(--accent); }
+    .kontakt-form textarea { resize: vertical; min-height: 120px; }
+
+    /* FOOTER */
+    footer {
+      text-align: center; padding: 2rem;
+      border-top: 1px solid var(--border);
+      font-size: 13px; color: var(--text-muted);
+      background: #fff;
+    }
+    footer span { color: var(--accent); font-weight: 600; }
+    footer p + p { margin-top: 6px; }
+
+
+
+    /* IMPRESSUM / DATENSCHUTZ MODAL */
+    .legal-modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 10000;
+      background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
+      align-items: center; justify-content: center; padding: 1.5rem;
+    }
+    .legal-modal-overlay.open { display: flex; }
+    .legal-modal {
+      background: #fff; border-radius: 16px; max-width: 680px; width: 100%;
+      max-height: 85vh; overflow-y: auto; box-shadow: 0 24px 80px rgba(0,0,0,0.25);
+      animation: modalIn 0.25s ease;
+    }
+    @keyframes modalIn { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
+    .legal-modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.5rem 2rem 1rem; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: #fff; z-index: 1;
+    }
+    .legal-modal-header h2 { font-size: 18px; font-weight: 700; color: var(--text); }
+    .legal-modal-close {
+      width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border);
+      background: transparent; cursor: pointer; font-size: 18px; color: var(--text-muted);
+      display: flex; align-items: center; justify-content: center; transition: background 0.15s;
+    }
+    .legal-modal-close:hover { background: var(--bg-secondary); }
+    .legal-modal-tabs {
+      display: flex; gap: 0; border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+    }
+    .legal-tab {
+      padding: 0.75rem 1.25rem; font-size: 13px; font-weight: 500; cursor: pointer;
+      border: none; background: none; color: var(--text-muted); border-bottom: 2px solid transparent;
+      margin-bottom: -1px; transition: color 0.2s, border-color 0.2s; font-family: var(--font);
+    }
+    .legal-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .legal-modal-body { padding: 1.75rem 2rem 2rem; }
+    .legal-panel { display: none; }
+    .legal-panel.active { display: block; }
+    .legal-panel h3 { font-size: 14px; font-weight: 700; color: var(--text); margin: 1.25rem 0 0.4rem; }
+    .legal-panel h3:first-child { margin-top: 0; }
+    .legal-panel p { font-size: 13px; color: var(--text-muted); line-height: 1.75; margin-bottom: 0.5rem; }
+    .legal-panel a { color: var(--accent); }
+    .legal-link {
+      color: var(--text-muted); text-decoration: underline; cursor: pointer;
+      font-size: 13px; background: none; border: none; padding: 0; font-family: var(--font);
+      transition: color 0.2s;
+    }
+    .legal-link:hover { color: var(--text); }
+
+    /* DSGVO */
+    #cookie-banner { display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#fff;border-top:1px solid #e5e5e5;box-shadow:0 -4px 24px rgba(0,0,0,0.1);padding:1.25rem 2rem;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap; }
+    #cookie-banner.show { display:flex; }
+    .dsgvo-check-wrap { display:flex;align-items:flex-start;gap:10px;margin-top:4px; }
+    .dsgvo-check-wrap input[type=checkbox] { margin-top:2px;accent-color:var(--accent);width:16px;height:16px;flex-shrink:0; }
+    .dsgvo-check-wrap label { font-size:13px;color:var(--text-muted);line-height:1.5; }
+    .dsgvo-check-wrap a { color:var(--accent); }
+
+    /* RESPONSIVE */
+    @media (max-width: 640px) {
+      nav ul { display: none; }
+      .kontakt-inner { flex-direction: column; }
+      .stats { gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <div class="logo">
+      <div class="logo-top">Zynro<span class="logo-dot">.</span></div>
+    </div>
+    <ul>
+      <li><a href="#leistungen">Leistungen</a></li>
+      <li><a href="#vorteile">Vorteile</a></li>
+      <li><a href="#kontakt">Kontakt</a></li>
+    </ul>
+    <a href="#kontakt" class="nav-cta">Erstgespräch</a>
+  </nav>
+
+  <!-- HERO -->
+  <div style="background:#fff;">
+    <section class="hero">
+      <div class="badge">Webdesign für lokale Unternehmen</div>
+      <h1>Ihre neue Website.<br><span>Professionell. Schnell. Wirksam.</span></h1>
+      <p>Wir gestalten moderne Websites, die Vertrauen aufbauen und neue Kunden gewinnen – für Restaurants, Friseure und lokale Dienstleister.</p>
+      <div class="hero-btns">
+        <a href="#kontakt" class="btn-primary">Kostenloses Erstgespräch →</a>
+        <a href="#leistungen" class="btn-secondary">Leistungen ansehen</a>
+      </div>
+    </section>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">7 Tage</div>
+      <div class="stat-label">Durchschnittliche Lieferzeit</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Zufriedenheitsgarantie</div>
+    </div>
+  </div>
+
+  <!-- LEISTUNGEN -->
+  <div style="background:#fff;" id="leistungen">
+    <section>
+      <span class="section-label">Leistungen</span>
+      <h2 class="section-title">Alles, was Ihre Website braucht</h2>
+      <p class="section-sub">Wir übernehmen die komplette Umsetzung – von der ersten Idee bis zur fertigen Seite. Sie müssen sich um nichts kümmern.</p>
+
+      <div class="leistungen-grid">
+        <div class="card featured">
+          <div class="feat-badge">Beliebt</div>
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" stroke="#5B4EE8" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <line x1="3" y1="9" x2="21" y2="9"/>
+              <circle cx="7" cy="6" r="0.8" fill="#5B4EE8"/>
+              <circle cx="10.5" cy="6" r="0.8" fill="#5B4EE8"/>
+            </svg>
+          </div>
+          <h3>Website Erstellung</h3>
+          <p>Wir erstellen Ihre professionelle Website von Grund auf – modern, mobil optimiert und bereit, Kunden zu überzeugen. Inkl. Hosting & Domain-Beratung.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" stroke="#5B4EE8" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 20h9"/>
+              <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+            </svg>
+          </div>
+          <h3>Redesign</h3>
+          <p>Ihre aktuelle Website wirkt veraltet? Wir modernisieren sie gezielt – neues Design, bessere Struktur und ein frischer Auftritt, der Vertrauen weckt.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" stroke="#5B4EE8" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <h3>Wartung & Support</h3>
+          <p>Wir halten Ihre Website aktuell, sicher und zuverlässig am Laufen – damit Sie sich auf Ihr Kerngeschäft konzentrieren können.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- VORTEILE -->
+  <div class="vorteile-bg" id="vorteile">
+    <section>
+      <span class="section-label">Warum zynro.</span>
+      <h2 class="section-title">Mehr Kunden. Weniger Aufwand.</h2>
+      <p class="section-sub">Eine gute Website ist Ihr bester Mitarbeiter – sie arbeitet rund um die Uhr für Sie. Wir sorgen dafür, dass sie das auch tut.</p>
+
+      <div class="vorteile-grid">
+        <div class="vorteil">
+          <div class="check">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3>Schnell online</h3>
+          <p>In nur 7 Tagen haben Sie eine fertige Website – ohne lange Wartezeiten und unnötige Besprechungen.</p>
+        </div>
+        <div class="vorteil">
+          <div class="check">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3>Modernes Design</h3>
+          <p>Sauber, zeitgemäß und auf Ihr Business zugeschnitten – Ihr erster Eindruck zählt, und der stimmt.</p>
+        </div>
+        <div class="vorteil">
+          <div class="check">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3>Mehr Kunden</h3>
+          <p>Mehr Sichtbarkeit in Google, klare Handlungsaufforderungen und eine überzeugende Darstellung – das bringt Anfragen.</p>
+        </div>
+        <div class="vorteil">
+          <div class="check">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3>Persönliche Beratung</h3>
+          <p>Kein Baukastensystem, keine anonyme Agentur. Sie haben immer eine direkte Ansprechperson an Ihrer Seite.</p>
+        </div>
+        <div class="vorteil">
+          <div class="check">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3>Mobil optimiert</h3>
+          <p>Über 70 % Ihrer Besucher kommen vom Smartphone. Ihre Website sieht auf jedem Gerät perfekt aus.</p>
+        </div>
+        <div class="vorteil">
+          <div class="check">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3>Faire Preise</h3>
+          <p>Qualität muss nicht teuer sein. Wir bieten professionelle Ergebnisse zu Preisen, die für kleine Unternehmen passen.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- CTA BLOCK -->
+  <div class="cta-wrap">
+    <div class="cta-block">
+      <h2>Bereit für Ihre neue Website?</h2>
+      <p>Sichern Sie sich jetzt Ihr kostenloses Erstgespräch – unverbindlich und ohne Risiko.<br>Wir zeigen Ihnen genau, wie Ihre neue Website aussehen und wirken könnte.</p>
+      <a href="#kontakt" class="btn-white">Jetzt Website anfragen →</a>
+    </div>
+  </div>
+
+  <!-- KONTAKT -->
+  <div style="background:#fff;" id="kontakt">
+    <section>
+      <div class="kontakt-inner">
+        <div class="kontakt-info">
+          <span class="section-label">Kontakt</span>
+          <h2>Schreiben Sie uns</h2>
+          <p>Sie haben eine Frage oder möchten direkt loslegen? Wir melden uns in der Regel innerhalb von 24 Stunden bei Ihnen – persönlich, nicht automatisch.</p>
+          <a href="mailto:zynrowebdesign@gmail.com" class="email-link">
+            <svg width="15" height="15" viewBox="0 0 24 24" stroke="#5B4EE8" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            zynrowebdesign@gmail.com
+          </a>
+        </div>
+
+        <div class="kontakt-form">
+          <input type="text" placeholder="Ihr Name" />
+          <input type="email" placeholder="Ihre E-Mail-Adresse" />
+          <input type="text" placeholder="Ihr Unternehmen (z. B. Restaurant, Friseur ...)" />
+          <textarea placeholder="Erzählen Sie uns kurz, was Sie brauchen ..."></textarea>
+          <div class="dsgvo-check-wrap">
+            <input type="checkbox" id="dsgvo-consent" required />
+            <label for="dsgvo-consent">Ich habe die <button class="legal-link" onclick="openLegal('datenschutz')">Datenschutzerklärung</button> gelesen und stimme der Verarbeitung meiner Daten zur Bearbeitung meiner Anfrage zu (DSGVO Art. 6 Abs. 1 lit. a).*</label>
+          </div>
+          <button class="btn-primary" style="align-self: flex-start;" onclick="return checkDsgvo()">Anfrage absenden →</button>
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 <span>Zynro.</span> Webdesign · zynrowebdesign@gmail.com</p>
+    <p>Alle Rechte vorbehalten · <button class="legal-link" onclick="openLegal('impressum')">Impressum</button> · <button class="legal-link" onclick="openLegal('datenschutz')">Datenschutz</button></p>
+  </footer>
+
+
+  <!-- DSGVO COOKIE BANNER -->
+  <div id="cookie-banner">
+    <div style="flex:1;min-width:260px;">
+      <p style="font-size:13px;color:#444;line-height:1.6;margin:0;">
+        <strong>Datenschutzhinweis:</strong> Diese Website verwendet keine Tracking-Cookies. Wir verarbeiten nur technisch notwendige Daten.
+        <button style="background:none;border:none;color:var(--accent);text-decoration:underline;cursor:pointer;font-size:13px;padding:0;" onclick="openLegal('datenschutz')">Mehr erfahren</button>
+      </p>
+    </div>
+    <div style="display:flex;gap:0.75rem;flex-shrink:0;">
+      <button onclick="acceptCookies()" style="background:var(--accent);color:#fff;border:none;padding:10px 22px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;">Verstanden</button>
+    </div>
+  </div>
+
+  <script>
+    // DSGVO Cookie Banner
+    function acceptCookies() {
+      document.getElementById('cookie-banner').classList.remove('show');
+      try { localStorage.setItem('zynro_consent', '1'); } catch(e) {}
+    }
+    window.addEventListener('DOMContentLoaded', function() {
+      var consented = false;
+      try { consented = localStorage.getItem('zynro_consent') === '1'; } catch(e) {}
+      if (!consented) document.getElementById('cookie-banner').classList.add('show');
+    });
+
+    // DSGVO Formular-Consent-Check
+    function checkDsgvo() {
+      var cb = document.getElementById('dsgvo-consent');
+      if (!cb.checked) {
+        alert('Bitte stimmen Sie der Datenschutzerklärung zu, um die Anfrage abzusenden.');
+        return false;
+      }
+      return true;
+    }
+  </script>
+
+
+  <!-- IMPRESSUM / DATENSCHUTZ MODAL -->
+  <div class="legal-modal-overlay" id="legalModal" onclick="if(event.target===this)closeLegal()">
+    <div class="legal-modal">
+      <div class="legal-modal-header">
+        <h2 id="modalTitle">Rechtliches</h2>
+        <button class="legal-modal-close" onclick="closeLegal()">×</button>
+      </div>
+      <div class="legal-modal-tabs">
+        <button class="legal-tab active" onclick="switchTab('impressum', this)">Impressum</button>
+        <button class="legal-tab" onclick="switchTab('datenschutz', this)">Datenschutz</button>
+      </div>
+      <div class="legal-modal-body">
+
+        <!-- IMPRESSUM -->
+        <div class="legal-panel active" id="panel-impressum">
+          <h3>Angaben gemäß § 5 TMG</h3>
+          <p>
+            Aland Alothman<br>
+            Pappelallee 58<br>
+            59557 Lippstadt<br>
+            Deutschland
+          </p>
+          <h3>Kontakt</h3>
+          <p>
+            Telefon: <a href="tel:+4917680593596">+49 176 80593596</a><br>
+            E-Mail: <a href="mailto:zynrowebdesign@gmail.com">zynrowebdesign@gmail.com</a>
+          </p>
+          <h3>Verantwortlich für den Inhalt (§ 55 Abs. 2 RStV)</h3>
+          <p>Aland Alothman, Pappelallee 58, 59557 Lippstadt</p>
+          <h3>Haftungsausschluss</h3>
+          <p>Die Inhalte dieser Website wurden mit größtmöglicher Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann jedoch keine Gewähr übernommen werden.</p>
+          <h3>Urheberrecht</h3>
+          <p>Die durch den Seitenbetreiber erstellten Inhalte und Werke auf dieser Website unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechts bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.</p>
+        </div>
+
+        <!-- DATENSCHUTZ -->
+        <div class="legal-panel" id="panel-datenschutz">
+          <h3>Verantwortlicher</h3>
+          <p>Aland Alothman, Pappelallee 58, 59557 Lippstadt<br>
+          E-Mail: <a href="mailto:zynrowebdesign@gmail.com">zynrowebdesign@gmail.com</a></p>
+          <h3>Erhobene Daten</h3>
+          <p>Wenn Sie das Kontaktformular nutzen, werden Ihr Name, Ihre E-Mail-Adresse und Ihre Nachricht verarbeitet. Diese Daten werden ausschließlich zur Bearbeitung Ihrer Anfrage verwendet und nicht an Dritte weitergegeben.</p>
+          <h3>Rechtsgrundlage</h3>
+          <p>Art. 6 Abs. 1 lit. b DSGVO (Vertragsanbahnung) bzw. Art. 6 Abs. 1 lit. a DSGVO (Einwilligung bei Formularnutzung).</p>
+          <h3>Cookies</h3>
+          <p>Diese Website verwendet keine Tracking-Cookies. Es werden ausschließlich technisch notwendige Daten verarbeitet (z. B. Cookie-Consent-Status im Browser-Speicher).</p>
+          <h3>Hosting</h3>
+          <p>Diese Website wird auf einem Server innerhalb der EU gehostet. Es werden serverseitig keine personenbezogenen Daten dauerhaft gespeichert.</p>
+          <h3>Ihre Rechte (Art. 15–21 DSGVO)</h3>
+          <p>Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit sowie Widerspruch. Anfragen richten Sie bitte an: <a href="mailto:zynrowebdesign@gmail.com">zynrowebdesign@gmail.com</a></p>
+          <h3>Beschwerderecht</h3>
+          <p>Sie haben das Recht, sich bei einer Datenschutz-Aufsichtsbehörde über die Verarbeitung Ihrer personenbezogenen Daten zu beschweren.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openLegal(tab) {
+      switchTab(tab, document.querySelector('.legal-tab[onclick*="' + tab + '"]'));
+      document.getElementById('legalModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLegal() {
+      document.getElementById('legalModal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function switchTab(name, btn) {
+      document.querySelectorAll('.legal-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.legal-tab').forEach(b => b.classList.remove('active'));
+      document.getElementById('panel-' + name).classList.add('active');
+      if (btn) btn.classList.add('active');
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeLegal();
+    });
+  </script>
+
+</body>
+</html>
